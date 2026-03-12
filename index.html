@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню на неделю - Мамин Курник</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #C9982A;
+            --cream: #F5F0E8;
+            --terracotta: #C0614A;
+            --brown: #7B4F2E;
+            --dark: #2C1A0E;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .top-line {
+            height: 4px;
+            background: var(--gold);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--brown);
+            margin-bottom: 2rem;
+        }
+
+        .counter {
+            font-size: 1.2rem;
+            color: var(--terracotta);
+            font-weight: 600;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--brown);
+            margin-bottom: 2rem;
+        }
+
+        .days-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .day-btn {
+            padding: 0.8rem 2rem;
+            background: white;
+            border: 2px solid var(--gold);
+            color: var(--brown);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .day-btn:hover {
+            background: var(--gold);
+            color: white;
+        }
+
+        .day-btn.active {
+            background: var(--gold);
+            color: white;
+        }
+
+        .menu-content {
+            display: none;
+        }
+
+        .menu-content.active {
+            display: block;
+        }
+
+        .menu-category {
+            margin-bottom: 3rem;
+        }
+
+        .menu-category h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--brown);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 0.5rem;
+        }
+
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dish-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(201, 152, 42, 0.3);
+        }
+
+        .dish-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .dish-calories {
+            color: var(--terracotta);
+            font-size: 0.9rem;
+        }
+
+        .kompleks-section {
+            background: white;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .kompleks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .kompleks-card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--gold);
+            transition: transform 0.3s;
+        }
+
+        .kompleks-card:hover {
+            transform: scale(1.02);
+        }
+
+        .kompleks-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .kompleks-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brown);
+            margin: 0.5rem 0;
+        }
+
+        .kompleks-composition {
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .kompleks-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--terracotta);
+        }
+
+        .kompleks-price {
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .btn-select {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-select:hover {
+            background: var(--brown);
+        }
+
+        .calculator-section {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--terracotta) 100%);
+            padding: 3rem 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .calculator-box {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            color: var(--dark);
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .calc-result {
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin: 1.5rem 0;
+        }
+
+        .delivery-note {
+            color: var(--terracotta);
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-contacts {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .footer-contacts a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .kompleks-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-line"></div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAIAAAAHjs1qAAEAAElEQVR42sz9dZSc2XUujO99zgvF2FXNzCSpxawRDWgYbY/HENuxYztgB+4X39zPyXeT3OQGb5wbO2Y7tsdDHkbNaKQRMzaombGquxheOuf3R1VLzZJiZ61fL62Z7urqt17YZ5+9n/3sZ6MR6UNEAA7ZLwQEgMwLCMhv/ubGr258cT7nhwW/5cABEOe9ATjAckfgcPPv+ez7F3w/92ALTwU43nzzgiPNO8BSB+SLTuzm3/KFn5V985wTRr7ogDdeQLjdL778mxef8/w38zmXuvLnZp41v50PnX+T+YL3L35Gy1/UjQ9FXPoOz//UJS4ZZw+y4BFwuIPby0HI/jEuupDMD3yRBS99d3DeGfLZ/3E+x/h49iP4cg/0hmEhcJ798ebjmH/9N47Ml7wwXMZ255sCzjeUzDd80WH5rYyW422Z6C2+8E5+hctcGixhVcvdh5XfuYQZ80X2zRf6FL7o73HB25c6wi1dAF/0PPgdWPqNxyostZRxmaW23GPgKy5ZvtKzuXne8zcHxHnfLPFglvwRb8uqbjyAJU5mzlpaztTwhm/AZa4Kb9us7/CZrfQQZs8KYZmtYP4189vziEsYwwKns8TlzvE3eKt7gsvswjden7vGcN5jWsk4ceHFIgAAwdvyMSs/ocVPnS/xqSssGfz1Nvk7/eJ3eBy85Unj/H8rv3Pl5bHkYW/P6BGXj2T4Hd/2m3/Il/0VLuN2boYIfKk9hd/JzjbXfvidOIAlXhBubha4eE/C+aeIsDAcWbB74VI76+2dKK4Yjy7hA/gy6xDveClwvlS0M/d6l889VrgcvlyoMccO+OyF39y++Lz4belQbb6rQ77UZ+Mdeg5YajdYnE3x27gPHG+GHCv6z4XR7y0CryUiz2UTm6W/hOyt5ytvPbjIJ8y53fPPevlUBpe/6MzFYNZhLAwVZmMexDlHWvwkljwxXPFxrnyxS94QnP93fAmHjctd9VKL+UbSwuc46aUtgy/KE3CZa+fLLD6EJbK0G6+wWd+Hs1exHNKAy27WHJZyE7BEKn8nPmMlz83nhsE43zUvPA6Z405w/o2DFYMqXDpPveF++AqXxZfe13D5HX+BA+ZLATh8uY9YchfnN33QEjvYck9mhZRxTjDDbzx1XGSRsNQqxVkj5sBn/5zzm8E2X/JxLnkn+SKnuNxz4UsZMV94SM5vfjPvUHz5uHC5d/46oeeNPY3dCgiau94WLlEyixPhrVYYv0VQiPN/i3DzyS2NMC66noUh/qJ1dWNN4lJWiIuBI1w+wZgb5i6wSLIoHF/uehe9jS/KehenhnzxqsaF1r9whcxu5XzxU1xyMS+5Kc09Mllq/c/dOnCJGH/BG+YuA46LlsSSKQK/jVRqmc0W+RLumK+wVyxezyBkbWjBts/JbESI88ODpUJbPnfjuxGQ4DzHj7jw+XFcdEX81ngL4lLRy9wUCbP3hc+NK3DpnJvjMjEPLoLPbkTJZH6sshRQzec/jMw543wznbsFczYneFgKwr9xV+eZI1sq3lje7eGS6TVf+pJXALv4khbJlzomn7euOCzzHPnyUe6KwA7ny8O+S548CnPQt7nw39z/kWX9Ol/xRs8L5m8DK+B4G9n2kjHo/MfAb+Un5j7gJRMMDreKwRaFyjcqTTetAfkNo+bL3ADkN7E8DrMWDEvl67iwXIDkTrLPFZH7lRA9vlKWjkvmlIssgC9lqct6jVvGPHxlZGRRSXFuqrpsPQVvAWXACn/IF2H5t4SN7yiPwYVZ421BvLd32HnQOwcAzjkg4M098EaZAxdmnDd8ZNYdz42GOfBZPP9mpM7nFB/mYDUc5we7fE4UN3/3QLLsHn5bqAze8dNZAX/+/6+vJWBDslSecUvQEJfNJzKPkN+Ru8HbvekLEiDOb71K+J3aOl+c9iLOqYHxm7Y8/x/O94V8fjyfPVtcmAbO9d83LJ7NHp/PRlxkifIFX94B4ZwU89cpRyAu8ilz4aPbLiX95x3QIj/L52dot/7EeemQsMw18+zV3th05tXP8NYun89NL+b7Fr5gM+LLxkJ3UFrCWzsbvlTaiYuLBHyOF4elc2s+p85yIwhEBM44Y1lUkTPOb+wUC7Y/5HOPlTlM9g6z7MXM9ym4EHVe8ExxzlK8GVBxuJmC3SLo4XfqOOd70GXB9aWoKAtz9BWfylxrwQXUHb6I1jU/AsSFm51wG/UXvvRiWCkmnZO84/LcEQ63W4S65VPB23t9Xi4xN3jg8xhIKxsHnwXAM+FJNtBARAKEEoIgCEAoEAp4A1BnwDkwNidSYtl1Qsgs/2k2MuEABgOmA2NcNzgzOGPZtYAEEBFnkagbXp8vnVbinGgEl7S3W/hIvnwag7d4NLjCM+PzbYMvk66s/Oj5nSzT7AkLK0d2d54A3eLz7sCL8GUxwDv7qyXD0BvBxkIAZ5l8eTY84NkQHJEQFAQUBBBFIASYAZrCUvF0LKxEQ6nQdCoUVMLhdCyWjsfUVMJQkno6qauKrunIDMMwABCJSGUBBVmQzaLJYrI7LG6v2eM1u1wWl8fs9kh2l2ixgmQBIgIHYAboBjd0bhgADJABkhvpwpxyJp+HHi4GsTi/hbe+xQ2/k+fOb6d49BuN0pf43U3vzm+V4/znPhwX3bI7IhnODZz4b3gBrlT7WhjccM5vAIVEkFCSQRCAGZCKp0OTieB4ZKQ/OtwbHRtUpseV0KSRCOtKihkGgk4JCqJIJAFEIsiSZJZkgRIJKTOYwRgDxjhLMZ1xNa2lFS2s6LqiGwZjHAgRUDKJZrtgd1vzitwllfbCMntBmSO/3Or1o80GhIJhgKYyXQPGAAhgJj3mc4l1y23anC9mZ+PCDBTvkPx2u2/DOw+iljeYlSlVOI+tjSzS/5tz4be91m+FC45wWwyzBYH70vd0McOZL0x3bp4a58CBZRjIhIgCiDJQAmo6HZwMD/UGutumu6+GBjpZZFIw4oSoJrtk8djtXpfV67DluM0Om8lpEy0SShKIEggCEAQRQQdIKxCPgIiAIlACAgWBAlLQdeAcuAGGDmlVS6rpSDIeiiemo9FAODETSYVi8aiaVoGLdnNOoaOkylezyl/X7C2rkVw+kC0ABFSVqWluGICASAAQyXweDp/n23El7GEp94wrZjK4lP3xWz3fjCu5HYrYktaIt7dmbjzqOeaOtwKcfjO2fpOyAHgH3n3ZogSueJglSR3zS02zDzvryDlDKqBsAlECNZ0KjAc6r062Xgi0X4j1d4Iaki3g9NldBR5fWZ4rz21226nDBrIZDAKKYqi6kkjFZ2JqKoXIqSBoaTUWSobH4548q2zFay9cA6e9cW9ZeGgmGTdMDsnqNJttMueShqhourIxKZeJttZtDk/ZEiPJBLTmApubpwOpzTnFdDKwl7SaIuMps8nU7MpWCyGBImF0mmypQAyoRSzFtoJqk9VmbgZF5zO6zHQFkFM/Mlq2JqhqenRKTEO0c7oLSVIJq4ZbDmuBWDRp0FJzugpjg6nJsdOJLV9qxGsssjU5Epqa1mJJ1Pju/dUtG+Yx/lnL/vcRr/xrWyPOM/dbhsn4G3PtcNudPjdySr7AJdwern8TVloCJ+Y3C7DAOeMARBBQNgFBFgkGu1uHz52euHwqMdyBSsjiEvxlOTklfm+J35HjALsFAEFhyXAiEohMj8zEpxNKQkuG45FAXE+r3hJ3xcZyl9+uxNJqUkuGolNXB+qe3OsqdHz17udrmlx/9v19p398crh1IrfSZ/daJLNgssmiWRobCF8/NxidMWwOQTIJsk1weO0un8OT53Ll2qweu8VhAbMMhEAikQhGpoaDgf6J4OB4eFzXueworc1r2Vy0Yau/fq2Ukw+cgJJmugpZ+8bMqsYlbx0uAFvnxzO/aZb+bYcu/DdjhLPmPvBfs6T4bURat1OEwvluBlcEAW4vsLsJEHLgHKlATCYQqDYzNdl2of/YwdHzR5WpQbsDi6tzCuqLcioLZK8TBAoJNToeGu2ZnBwOpWJqNJCYnowmY9CyLZdKpO/suK6Bt8Cy4eE1JVtqIqMzR/7jbLAvAKqx4Yt7atf4Lr1wbGI81TOgmq1CQR5xeyy7fm/PiW+913kuoHJKCatak7/j4xsAjHOvX2k/MXT/l7aM9gVPvtEtm4CpwAnYnYLdZZbtJk+hO680x1uSY8vzgt0MmpKanBnvGB1rHw70TcaiTPD481u2l+08ULh2h+TxAzcgnTI0LePUEZDjItoA4pweyFniA+f/BUWl2+9gwP8ic1/uoPw/9Ul3Vme69TtxWZh8mSPhEjHlnGgGA1GQGSeLJ6ETr2da3Xx0+/REmxry5YmlDQUlTqavEB3CKZGp0OBof3BQMDISjSa/hJHaX3p0VNlffUlta5rb90r7vmsakZnry48uI9W91X/66/f/0L/lmzTrfuqbv+v3wvPfdbdjxQ+vz+Upbz+sGrAAU0mjvg33rbJqm1SHOfp80Mz4jO1m+taSLe6Cqx89LlTfX+ZYs0/xFLjBJEVHpgduTnVcCLgCojff5SiiqprqiyiKS7F4bc5v2yGSv3xH7lRtb4K39cSl" alt="Мамин Курник">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#menu">Меню</a></li>
+                <li><a href="#kompleks">Комплексы</a></li>
+                <li><a href="#order">Заказать</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>МЕНЮ НА НЕДЕЛЮ</h1>
+        <p>Каждый день - новые блюда. Всегда свежо, всегда по-домашнему.</p>
+        <div class="counter">Сегодня приготовим 150+ порций</div>
+    </section>
+
+    <section id="menu" class="container">
+        <h2 class="section-title">Выберите день недели</h2>
+
+        <div class="days-tabs">
+            <button class="day-btn active" data-day="mon">ПН</button>
+            <button class="day-btn" data-day="tue">ВТ</button>
+            <button class="day-btn" data-day="wed">СР</button>
+            <button class="day-btn" data-day="thu">ЧТ</button>
+            <button class="day-btn" data-day="fri">ПТ</button>
+        </div>
+
+        <!-- Понедельник -->
+        <div class="menu-content active" id="mon">
+            <div class="menu-category">
+                <h3>Первое</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Борщ домашний</div>
+                        <div class="dish-calories">320 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Суп гороховый</div>
+                        <div class="dish-calories">280 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Щи</div>
+                        <div class="dish-calories">250 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Второе</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Котлета с пюре</div>
+                        <div class="dish-calories">450 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Гуляш</div>
+                        <div class="dish-calories">420 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Курица с рисом</div>
+                        <div class="dish-calories">380 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Салаты</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Оливье</div>
+                        <div class="dish-calories">180 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Морковь по-корейски</div>
+                        <div class="dish-calories">120 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Выпечка</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Пирожок с капустой</div>
+                        <div class="dish-calories">220 ккал</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вторник -->
+        <div class="menu-content" id="tue">
+            <div class="menu-category">
+                <h3>Первое</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Рассольник</div>
+                        <div class="dish-calories">290 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Грибной суп</div>
+                        <div class="dish-calories">260 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Уха</div>
+                        <div class="dish-calories">240 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Второе</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Биточки с гречкой</div>
+                        <div class="dish-calories">430 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Свинина тушёная</div>
+                        <div class="dish-calories">460 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Рыба запечённая</div>
+                        <div class="dish-calories">340 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Салаты</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Свекольный</div>
+                        <div class="dish-calories">140 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Греческий</div>
+                        <div class="dish-calories">160 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Выпечка</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Плюшка сахарная</div>
+                        <div class="dish-calories">200 ккал</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Среда -->
+        <div class="menu-content" id="wed">
+            <div class="menu-category">
+                <h3>Первое</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Щи из щавеля</div>
+                        <div class="dish-calories">230 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Суп-лапша</div>
+                        <div class="dish-calories">270 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Харчо</div>
+                        <div class="dish-calories">310 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Второе</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Пельмени</div>
+                        <div class="dish-calories">480 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Азу</div>
+                        <div class="dish-calories">410 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Печень тушёная</div>
+                        <div class="dish-calories">360 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Салаты</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Крабовый</div>
+                        <div class="dish-calories">170 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Редис со сметаной</div>
+                        <div class="dish-calories">110 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Выпечка</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Кусочек курника</div>
+                        <div class="dish-calories">260 ккал</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Четверг -->
+        <div class="menu-content" id="thu">
+            <div class="menu-category">
+                <h3>Первое</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Солянка</div>
+                        <div class="dish-calories">330 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Капустняк</div>
+                        <div class="dish-calories">260 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Молочный суп</div>
+                        <div class="dish-calories">240 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Второе</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Тефтели</div>
+                        <div class="dish-calories">390 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Отбивная</div>
+                        <div class="dish-calories">440 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Куриная грудка</div>
+                        <div class="dish-calories">320 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Салаты</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Витаминный</div>
+                        <div class="dish-calories">130 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Помидоры со сметаной</div>
+                        <div class="dish-calories">150 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Выпечка</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Сырник</div>
+                        <div class="dish-calories">230 ккал</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Пятница -->
+        <div class="menu-content" id="fri">
+            <div class="menu-category">
+                <h3>Первое</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Борщ с фасолью</div>
+                        <div class="dish-calories">340 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Рыбный суп</div>
+                        <div class="dish-calories">270 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Грибной крем-суп</div>
+                        <div class="dish-calories">280 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Второе</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Рыбные котлеты</div>
+                        <div class="dish-calories">350 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Голубцы</div>
+                        <div class="dish-calories">370 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Плов</div>
+                        <div class="dish-calories">420 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Салаты</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Лёгкий овощной</div>
+                        <div class="dish-calories">100 ккал</div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-name">Огурцы со сметаной</div>
+                        <div class="dish-calories">90 ккал</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Выпечка</h3>
+                <div class="dishes-grid">
+                    <div class="dish-card">
+                        <div class="dish-name">Яблочный пирожок</div>
+                        <div class="dish-calories">210 ккал</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kompleks" class="kompleks-section">
+        <div class="container">
+            <h2 class="section-title">Выберите комплекс обеда</h2>
+            <div class="kompleks-grid">
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№1</div>
+                    <div class="kompleks-name">Домашний</div>
+                    <div class="kompleks-composition">Борщ + Котлета с пюре + Салат + Хлеб</div>
+                    <div class="kompleks-info">
+                        <span>970 ккал</span>
+                        <span>400 г</span>
+                    </div>
+                    <div class="kompleks-price">350 ₽</div>
+                    <button class="btn-select" data-kompleks="1" data-price="350">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№2</div>
+                    <div class="kompleks-name">Сытный</div>
+                    <div class="kompleks-composition">Солянка + Гуляш + Гречка + Салат + Хлеб</div>
+                    <div class="kompleks-info">
+                        <span>1050 ккал</span>
+                        <span>450 г</span>
+                    </div>
+                    <div class="kompleks-price">380 ₽</div>
+                    <button class="btn-select" data-kompleks="2" data-price="380">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№3</div>
+                    <div class="kompleks-name">Лёгкий</div>
+                    <div class="kompleks-composition">Суп овощной + Курица + Рис + Салат + Хлеб</div>
+                    <div class="kompleks-info">
+                        <span>780 ккал</span>
+                        <span>380 г</span>
+                    </div>
+                    <div class="kompleks-price">320 ₽</div>
+                    <button class="btn-select" data-kompleks="3" data-price="320">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№4</div>
+                    <div class="kompleks-name">Рыбный</div>
+                    <div class="kompleks-composition">Уха + Рыба запечённая + Картофель + Салат</div>
+                    <div class="kompleks-info">
+                        <span>850 ккал</span>
+                        <span>420 г</span>
+                    </div>
+                    <div class="kompleks-price">390 ₽</div>
+                    <button class="btn-select" data-kompleks="4" data-price="390">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№5</div>
+                    <div class="kompleks-name">Традиционный</div>
+                    <div class="kompleks-composition">Щи + Котлета + Пюре + Салат + Пирожок</div>
+                    <div class="kompleks-info">
+                        <span>1020 ккал</span>
+                        <span>440 г</span>
+                    </div>
+                    <div class="kompleks-price">360 ₽</div>
+                    <button class="btn-select" data-kompleks="5" data-price="360">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№6</div>
+                    <div class="kompleks-name">Праздничный</div>
+                    <div class="kompleks-composition">Борщ + Отбивная + Пюре + Оливье + Пирожок</div>
+                    <div class="kompleks-info">
+                        <span>1120 ккал</span>
+                        <span>480 г</span>
+                    </div>
+                    <div class="kompleks-price">420 ₽</div>
+                    <button class="btn-select" data-kompleks="6" data-price="420">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№7</div>
+                    <div class="kompleks-name">Пельменный</div>
+                    <div class="kompleks-composition">Бульон + Пельмени + Сметана + Салат + Хлеб</div>
+                    <div class="kompleks-info">
+                        <span>920 ккал</span>
+                        <span>410 г</span>
+                    </div>
+                    <div class="kompleks-price">340 ₽</div>
+                    <button class="btn-select" data-kompleks="7" data-price="340">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№8</div>
+                    <div class="kompleks-name">Грибной</div>
+                    <div class="kompleks-composition">Грибной суп + Печень + Гречка + Салат + Хлеб</div>
+                    <div class="kompleks-info">
+                        <span>880 ккал</span>
+                        <span>400 г</span>
+                    </div>
+                    <div class="kompleks-price">350 ₽</div>
+                    <button class="btn-select" data-kompleks="8" data-price="350">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№9</div>
+                    <div class="kompleks-name">Плов</div>
+                    <div class="kompleks-composition">Харчо + Плов + Салат + Лепёшка</div>
+                    <div class="kompleks-info">
+                        <span>980 ккал</span>
+                        <span>430 г</span>
+                    </div>
+                    <div class="kompleks-price">370 ₽</div>
+                    <button class="btn-select" data-kompleks="9" data-price="370">Выбрать</button>
+                </div>
+
+                <div class="kompleks-card">
+                    <div class="kompleks-number">№10</div>
+                    <div class="kompleks-name">Голубцы</div>
+                    <div class="kompleks-composition">Борщ + Голубцы + Сметана + Салат + Хлеб</div>
+                    <div class="kompleks-info">
+                        <span>940 ккал</span>
+                        <span>420 г</span>
+                    </div>
+                    <div class="kompleks-price">360 ₽</div>
+                    <button class="btn-select" data-kompleks="10" data-price="360">Выбрать</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="order" class="calculator-section">
+        <h2 class="section-title" style="color: white;">Рассчитайте стоимость заказа</h2>
+        <div class="calculator-box">
+            <label for="portions">Количество порций (от 10 до 200):</label>
+            <input type="number" id="portions" class="calc-input" min="10" max="200" value="10" step="1">
+
+            <label for="kompleks-select">Выберите комплекс:</label>
+            <select id="kompleks-select" class="calc-input">
+                <option value="350">№1 - Домашний (350 ₽)</option>
+                <option value="380">№2 - Сытный (380 ₽)</option>
+                <option value="320">№3 - Лёгкий (320 ₽)</option>
+                <option value="390">№4 - Рыбный (390 ₽)</option>
+                <option value="360">№5 - Традиционный (360 ₽)</option>
+                <option value="420">№6 - Праздничный (420 ₽)</option>
+                <option value="340">№7 - Пельменный (340 ₽)</option>
+                <option value="350">№8 - Грибной (350 ₽)</option>
+                <option value="370">№9 - Плов (370 ₽)</option>
+                <option value="360">№10 - Голубцы (360 ₽)</option>
+            </select>
+
+            <div class="calc-result">
+                Сумма: <span id="total">3500</span> ₽
+            </div>
+
+            <div class="delivery-note">Бесплатная доставка включена</div>
+
+            <button class="btn-select" style="background: var(--terracotta); font-size: 1.1rem;">Оставить заявку</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h3>Мамин Курник</h3>
+            <p>Домашняя кухня с доставкой</p>
+            <div class="footer-contacts">
+                <div>
+                    <strong>Телефон:</strong><br>
+                    <a href="tel:+79000000000">+7 (900) 000-00-00</a>
+                </div>
+                <div>
+                    <strong>Email:</strong><br>
+                    <a href="mailto:info@maminkurnik.ru">info@maminkurnik.ru</a>
+                </div>
+                <div>
+                    <strong>Адрес:</strong><br>
+                    Москва, ул. Примерная, 1
+                </div>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.7;">© 2026 Мамин Курник. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tabs functionality
+        const dayButtons = document.querySelectorAll('.day-btn');
+        const menuContents = document.querySelectorAll('.menu-content');
+
+        dayButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const day = btn.getAttribute('data-day');
+
+                dayButtons.forEach(b => b.classList.remove('active'));
+                menuContents.forEach(c => c.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(day).classList.add('active');
+            });
+        });
+
+        // Calculator functionality
+        const portionsInput = document.getElementById('portions');
+        const kompleksSelect = document.getElementById('kompleks-select');
+        const totalDisplay = document.getElementById('total');
+
+        function calculateTotal() {
+            const portions = parseInt(portionsInput.value) || 10;
+            const price = parseInt(kompleksSelect.value) || 350;
+            const total = portions * price;
+            totalDisplay.textContent = total.toLocaleString('ru-RU');
+        }
+
+        portionsInput.addEventListener('input', calculateTotal);
+        kompleksSelect.addEventListener('change', calculateTotal);
+
+        // Kompleks cards selection
+        const kompleksButtons = document.querySelectorAll('.kompleks-card .btn-select');
+        kompleksButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const kompleks = btn.getAttribute('data-kompleks');
+                const price = btn.getAttribute('data-price');
+
+                kompleksSelect.value = price;
+                calculateTotal();
+
+                document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Counter animation
+        let count = 150;
+        setInterval(() => {
+            count = 150 + Math.floor(Math.random() * 10);
+            document.querySelector('.counter').textContent = `Сегодня приготовим ${count}+ порций`;
+        }, 3000);
+    </script>
+</body>
+</html>
